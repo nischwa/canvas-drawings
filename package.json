@@ -2,5 +2,12 @@
   "name": "canvas-basics",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "build": "esbuild ./src/index.ts --bundle --outfile=dist/build.js"
+  },
+  "devDependencies": {
+    "esbuild": "^0.19.4",
+    "typescript": "^5.2.2"
+  }
 }
