@@ -36,7 +36,7 @@ const startPoint = new Vector(270, 270);
 const myContext = new DrawingContext(ctx, canvas);
 
 // Fill drawing context with circles
-for (let i = 0; i < 7; i++) {
+for (let i = 0; i < 5; i++) {
     const circle = new Circle(
         startPoint.x, 
         startPoint.y, 

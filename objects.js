@@ -11,7 +11,7 @@ class Circle {
         this.borders = boundaries;
 
         this.draw();
-        this.velocity = new RandomVector(3);
+        this.velocity = new RandomVector(4);
     }
 
     update() {
@@ -36,10 +36,14 @@ class Circle {
 
     lineTo() {
         this.ctx.save();
-        ctx.strokeStyle = "gray";
+        ctx.strokeStyle = "lightgray";
         ctx.beginPath();
         ctx.moveTo(this.x, this.y);
         ctx.lineTo(this.borders.width / 2, this.borders.height / 2);
+        ctx.moveTo(this.x, this.y);
+        ctx.lineTo(0, 0);
+        ctx.moveTo(this.x, this.y);
+        ctx.lineTo(this.borders.width, 0);
         ctx.stroke();
         this.ctx.restore();
     }
