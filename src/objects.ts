@@ -1,3 +1,4 @@
+import { IBasicDrawingObject } from "./interfaces";
 import { randomMinMax } from "./utils";
 
 export class DrawingContext {
@@ -52,7 +53,7 @@ export class Circle {
         this.borders = boundaries;
 
         this.draw();
-        this.velocity = new RandomVector(4);
+        this.velocity = new RandomVector(2);
     }
 
     update() {
@@ -60,7 +61,6 @@ export class Circle {
         this.x += this.velocity.x;
         this.y += this.velocity.y;
         this.draw();
-        this.lineTo();
     }
 
     collisionDetection() {
@@ -75,12 +75,12 @@ export class Circle {
         }
     }
 
-    lineTo() {
+    lineTo(x: number, y: number) {
         this.ctx.save();
         this.ctx.strokeStyle = "lightgray";
         this.ctx.beginPath();
         this.ctx.moveTo(this.x, this.y);
-        this.ctx.lineTo(this.borders.width / 2, this.borders.height / 2);
+        this.ctx.lineTo(x, y);
         this.ctx.stroke();
         this.ctx.restore();
     }
@@ -93,6 +93,40 @@ export class Circle {
 
     clear() {
         this.ctx.clearRect(this.x - this.radius - 1, this.y - this.radius - 1, (this.radius + 1) * 2, (this.radius + 1) * 2);
+    }
+}
+
+export class InterConnectionObserver {
+    objects: IBasicDrawingObject[];
+
+    constructor(objects?: IBasicDrawingObject[]) {
+        this.objects = objects || [];
+    }
+
+    addObject(obj: any) {
+        this.objects.push(obj);
+    }
+
+    getDistance(a: IBasicDrawingObject, b: IBasicDrawingObject): number {
+        const vectorA = new Vector(a.x, a.y);
+        const vectorB = new Vector(b.x, b.y);
+        const deltaX = Math.abs(vectorA.x - vectorB.x);
+        const deltaY = Math.abs(vectorA.y - vectorB.y);
+        
+        return Math.sqrt((deltaX * deltaX) + (deltaY * deltaY));
+    }
+
+    update() {
+        this.objects.forEach((obj, index) => {
+            const current: IBasicDrawingObject = obj;
+            const others: IBasicDrawingObject[] = this.objects.slice(index + 1, this.objects.length);
+            others.forEach(other => {
+                const distance = this.getDistance(current, other);
+                if (distance < 150) {
+                    current.lineTo(other.x, other.y);
+                }
+            })
+        })
     }
 }
 

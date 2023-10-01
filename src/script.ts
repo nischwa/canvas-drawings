@@ -1,27 +1,32 @@
-import { DrawingContext, Vector, Circle } from './objects';
+import { DrawingContext, Vector, Circle, RandomVector, InterConnectionObserver } from './objects';
 import { randomMinMax } from './utils';
 
 const canvas: HTMLCanvasElement = document.querySelector('#js-canvas')!;
 const ctx: CanvasRenderingContext2D = canvas?.getContext('2d')!;
+const {width, height} = canvas.getBoundingClientRect();
 
-
-const startPoint = new Vector(270, 270);
 const myContext = new DrawingContext(ctx, canvas);
+const connector = new InterConnectionObserver();
 
 // Fill drawing context with circles
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 15; i++) {
+    // const start = new Vector(randomMinMax(100, 500), randomMinMax(100, 500));
+    const start = new Vector(width * 0.5, height * 0.5);
     const circle = new Circle(
-        startPoint.x, 
-        startPoint.y, 
-        randomMinMax(0, 25), 
+        start.x, 
+        start.y, 
+        randomMinMax(1, 25), 
         ctx, 
         canvas.getBoundingClientRect()
     );
     myContext.addObject(circle);
+    connector.addObject(circle);
 }
 
+connector.update();
 const animation = () => {
-    myContext.animate()
+    myContext.animate();
+    connector.update();
     window.requestAnimationFrame(animation);
 }
 
