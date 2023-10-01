@@ -1,35 +1,56 @@
 const canvas = document.querySelector('#js-canvas');
 const ctx = canvas.getContext('2d');
 
-// Rectangles
-// ctx.fillStyle = "rgb(200, 0, 0)";
-// ctx.fillRect(10, 10, 50, 50);
+class DrawingContext {
+    constructor(context, canvas, backgroundColor = 'white') {
+        this.ctx = context;
+        this.width = canvas.getBoundingClientRect().width;
+        this.height = canvas.getBoundingClientRect().height;
+        this.backgroundColor = backgroundColor;
+        this.objects = [];
+        // Bind this to methods
+        this.animate = this.animate.bind(this);
+    }
 
-// ctx.fillStyle = "rgba(0, 0, 200, 0.5)";
-// ctx.fillRect(30, 30, 50, 50);
-// console.log(ctx.width);
+    addObject(obj) {
+        this.objects.push(obj);
+    }
 
-// const x = 100;
-// const y = 10;
+    clear() {
+        this.ctx.save();
+        this.ctx.fillStyle = this.backgroundColor;
+        this.ctx.fillRect(0, 0, this.width, this.height);
+        this.ctx.restore();
+    }
 
-// ctx.fillRect(x, y, 100, 100);
-// ctx.clearRect(x + 20, y + 20, 60, 60);
-// ctx.strokeRect(x + 25, y + 25, 50, 50);
+    animate() {
+        this.clear();
+        this.objects?.forEach((obj) => {
+            // Assuming each of our canvas objects has an update method
+            obj?.update();
+        })
+    }
+}
 
-const pointOne = new Vector(270, 270);
-const objects = [];
+const startPoint = new Vector(270, 270);
+const myContext = new DrawingContext(ctx, canvas);
 
+// Fill drawing context with circles
 for (let i = 0; i < 7; i++) {
-    const circle = new Circle(pointOne.x, pointOne.y, randomMinMax(0, 25), ctx, canvas.getBoundingClientRect());
-    objects.push(circle);
+    const circle = new Circle(
+        startPoint.x, 
+        startPoint.y, 
+        randomMinMax(0, 25), 
+        ctx, 
+        canvas.getBoundingClientRect()
+    );
+    myContext.addObject(circle);
 }
 
 const animation = () => {
-    ctx.clearRect(0, 0, canvas.getBoundingClientRect().width, canvas.getBoundingClientRect().height);
-    objects.forEach(obj => {
-        obj.update();
-    });
+    myContext.animate()
     window.requestAnimationFrame(animation);
 }
 
+// start the animation
 window.requestAnimationFrame(animation);
