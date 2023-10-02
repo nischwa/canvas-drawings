@@ -3,19 +3,20 @@ import { randomMinMax } from './utils';
 
 const canvas: HTMLCanvasElement = document.querySelector('#js-canvas')!;
 const ctx: CanvasRenderingContext2D = canvas?.getContext('2d')!;
+
 const {width, height} = canvas.getBoundingClientRect();
 
-const myContext = new DrawingContext(ctx, canvas);
+const myContext = new DrawingContext(ctx, canvas, 'black');
 const connector = new InterConnectionObserver();
 
 // Fill drawing context with circles
-for (let i = 0; i < 15; i++) {
+for (let i = 0; i < 12; i++) {
     // const start = new Vector(randomMinMax(100, 500), randomMinMax(100, 500));
     const start = new Vector(width * 0.5, height * 0.5);
     const circle = new Circle(
         start.x, 
         start.y, 
-        randomMinMax(1, 25), 
+        randomMinMax(10, 10), 
         ctx, 
         canvas.getBoundingClientRect()
     );
@@ -23,7 +24,6 @@ for (let i = 0; i < 15; i++) {
     connector.addObject(circle);
 }
 
-connector.update();
 const animation = () => {
     myContext.animate();
     connector.update();

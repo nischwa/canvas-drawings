@@ -53,7 +53,7 @@ export class Circle {
         this.borders = boundaries;
 
         this.draw();
-        this.velocity = new RandomVector(2);
+        this.velocity = new RandomVector(4);
     }
 
     update() {
@@ -77,6 +77,7 @@ export class Circle {
 
     lineTo(x: number, y: number) {
         this.ctx.save();
+        this.ctx.lineWidth = 1;
         this.ctx.strokeStyle = "lightgray";
         this.ctx.beginPath();
         this.ctx.moveTo(this.x, this.y);
@@ -86,9 +87,12 @@ export class Circle {
     }
 
     draw() {
+        this.ctx.save()
+        this.ctx.strokeStyle = 'white';
         this.ctx.beginPath();
         this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
         this.ctx.stroke();
+        this.ctx.restore()
     }
 
     clear() {
@@ -122,7 +126,7 @@ export class InterConnectionObserver {
             const others: IBasicDrawingObject[] = this.objects.slice(index + 1, this.objects.length);
             others.forEach(other => {
                 const distance = this.getDistance(current, other);
-                if (distance < 150) {
+                if (distance < 100) {
                     current.lineTo(other.x, other.y);
                 }
             })
