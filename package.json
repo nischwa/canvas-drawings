@@ -4,7 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "build": "esbuild ./src/index.ts --bundle --outfile=dist/build.js --watch"
+    "build": "esbuild ./src/index.ts --bundle --outfile=dist/build.js",
+    "watch": "yarn build --watch",
+    "start": "yarn watch -- --servedir=."
   },
   "devDependencies": {
     "esbuild": "^0.19.4",
