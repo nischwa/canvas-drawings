@@ -39,7 +39,7 @@ class Mesh {
             for (var x = this.gap / 2; x <= this.size; x+= this.gap) {
                 const modX = x + (Math.random()*.8 - .4) * this.gap + (odd ? this.gap / 2 : 0);
                 const modY = y + (Math.random()*.8 - .4) * this.gap
-                line.push(new Vector(x, y));
+                line.push(new Vector(modX, modY));
             }
             this.lines.push(line);
           }
@@ -88,7 +88,7 @@ class Mesh {
         this.ctx.closePath();
         this.ctx.stroke();
         this.ctx.fillStyle = '#' + gray + gray + gray; 
-        // this.ctx.fill();
+        this.ctx.fill();
         this.ctx.restore();
       }
 

@@ -53,7 +53,7 @@ export class Circle {
         this.borders = boundaries;
 
         this.draw();
-        this.velocity = new RandomVector(4);
+        this.velocity = new RandomVector(2);
     }
 
     update() {
@@ -126,7 +126,7 @@ export class InterConnectionObserver {
             const others: IBasicDrawingObject[] = this.objects.slice(index + 1, this.objects.length);
             others.forEach(other => {
                 const distance = this.getDistance(current, other);
-                if (distance < 100) {
+                if (distance < 250) {
                     current.lineTo(other.x, other.y);
                 }
             })
